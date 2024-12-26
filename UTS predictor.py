@@ -67,6 +67,7 @@ model = RandomForestRegressor(random_state=42, n_estimators=100)
 model.fit(X_train_scaled, y_train)
 
 # Evaluate the model
+mscore = model.score(X_train_scaled, y_train)
 y_pred = model.predict(X_test_scaled)
 mae = mean_absolute_error(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
@@ -88,6 +89,7 @@ user_input = np.array([[E_input, G_input, μ_input, ρ_input, Sy_input]])
 user_input_scaled = scaler.transform(user_input)
 
 print("Model Evaluation:")
+print(f"Model Score: {mscore}")
 print(f"Mean Absolute Error (MAE): {mae}")
 print(f"Mean Squared Error (MSE): {mse}")
 print(f"R-Squared (R2): {r2}")
