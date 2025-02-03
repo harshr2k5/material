@@ -7,7 +7,7 @@ Features Used:
 - Poisson's Ratio (μ)
 - Density (ρ)
 - Yield Strength (σₛ)
-- Material Conditions: predefined material processing conditions (e.g., annealed, quenched, tempered).
+- Material Conditions: predefined material processing conditions (e.g., Annealed, Quenched, Tempered).
 
 Additionally, the model plots the stress-strain curve and approximates the plastic region using Hollomon equation.
 
