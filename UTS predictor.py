@@ -31,12 +31,11 @@ conditions = {
     "Q": "heat treated",
     "R": "case-hardened",
     "S": "face hardened",
-    "T": "nitro-carburized",
+    "T": "improved",
     "U": "cold working",
     "V": "high tempering",
     "W": "quenched and tempered",
-    "X": "quenching and cooling",
-    "Y": "improved"
+    "X": "quenching and cooling"
 }
 for key, value in conditions.items():
     print(f"{key}: {value}")
