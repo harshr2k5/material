@@ -34,7 +34,8 @@ conditions = {
     "S": "cold working",
     "T": "high tempering",
     "U": "quenched and tempered",
-    "V": "quenching and cooling"
+    "V": "quenching and cooling",
+    "NONE": "no pre-processing"
 }
 for key, value in conditions.items():
     print(f"{key}: {value}")
@@ -42,7 +43,9 @@ for key, value in conditions.items():
 condition = input("Condition: ").strip().upper()
 
 # Validate and filter data based on the chosen condition
-if condition in conditions:
+if condition == "NONE":
+    data = data
+elif condition in conditions:
     chosen_condition = conditions[condition]
     data = data[data['Material'].str.contains(chosen_condition, case=False)]
 else:
