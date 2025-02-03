@@ -19,23 +19,21 @@ conditions = {
     "E": "wrought",
     "F": "cast",
     "G": "as extruded",
-    "H": "as hot rolled",
-    "I": "tempered at 400 F",
-    "J": "tempered at 600 F",
-    "K": "tempered at 800 F",
-    "L": "1/4-hard",
-    "M": "1/2-hard",
-    "N": "3/4-hard",
-    "O": "full-hard",
-    "P": "pressure die casting",
-    "Q": "heat treated",
-    "R": "case-hardened",
-    "S": "face hardened",
-    "T": "improved",
-    "U": "cold working",
-    "V": "high tempering",
-    "W": "quenched and tempered",
-    "X": "quenching and cooling"
+    "H": "tempered at 400 F",
+    "I": "tempered at 600 F",
+    "J": "tempered at 800 F",
+    "K": "1/4-hard",
+    "L": "1/2-hard",
+    "M": "3/4-hard",
+    "N": "full-hard",
+    "O": "heat treated",
+    "P": "case-hardened",
+    "Q": "face hardened",
+    "R": "improved",
+    "S": "cold working",
+    "T": "high tempering",
+    "U": "quenched and tempered",
+    "V": "quenching and cooling"
 }
 for key, value in conditions.items():
     print(f"{key}: {value}")
@@ -100,11 +98,3 @@ print(f"R-Squared (R2): {r2}")
 # Predict Su
 predicted_Su = model.predict(user_input_scaled)
 print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
-
-# Feature Importance Analysis
-feature_importances = model.feature_importances_
-plt.barh(features.columns, feature_importances)
-plt.xlabel("Feature Importance")
-plt.ylabel("Feature")
-plt.title("Random Forest Feature Importance")
-plt.show()
