@@ -12,4 +12,4 @@ Features Used:
 Additionally, the model plots the stress-strain curve and approximates the plastic region using Hollomon equation.
 
 Requirements:
-Python + Pandas, Matplotlib, Scikit-Learn, Joblib
+Python, NumPy, Pandas, Matplotlib, Scikit-Learn, Joblib
