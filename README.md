@@ -7,7 +7,7 @@ Features Used:
 - Poisson's Ratio (μ)
 - Density (ρ)
 - Yield Strength (σₛ)
-- Material Conditions: 25 predefined material processing conditions (e.g., annealed, quenched, tempered).
+- Material Conditions: predefined material processing conditions (e.g., annealed, quenched, tempered).
 
 Requirements:
 Python + Pandas, Scikit-Learn, Joblib
