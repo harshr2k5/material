@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
@@ -98,3 +99,44 @@ print(f"R-Squared (R2): {r2}")
 # Predict Su
 predicted_Su = model.predict(user_input_scaled)
 print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
+
+# Calculate strain at yield point
+ε_y = Sy_input / E_input  # Engineering strain at yield
+
+# True stress and true strain at yield
+σ_y = Sy_input * (1 + ε_y)  # True stress at yield
+ϵ_y = np.log(1 + ε_y)       # True strain at yield
+
+# Estimate strain at UTS (engineering strain, typically around 0.02 for many materials)
+ε_u = 0.02  # Assumed engineering strain at UTS
+σ_u = predicted_Su[0] * (1 + ε_u)  # True stress at UTS
+ϵ_u = np.log(1 + ε_u)              # True strain at UTS
+
+# Calculate strain-hardening exponent (n) and strength coefficient (K)
+n = np.log(σ_u / σ_y) / np.log(ϵ_u / ϵ_y)
+K = σ_y / (ϵ_y ** n)
+
+# Generate strain values for the plastic region
+ϵ_plastic = np.linspace(ϵ_y, ϵ_u, 100)  # True strain in the plastic region
+
+# Calculate stress in the plastic region using Hollomon's equation
+σ_plastic = K * (ϵ_plastic ** n)
+
+# Convert true strain back to engineering strain for plotting
+ε_plastic = np.exp(ϵ_plastic) - 1
+
+# Combine elastic and plastic regions
+ε_total = np.concatenate((np.linspace(0, ε_y, 100), ε_plastic))
+σ_total = np.concatenate((E_input * np.linspace(0, ε_y, 100), σ_plastic))
+
+# Plot the stress-strain curve
+plt.figure(figsize=(10, 6))
+plt.plot(ε_total, σ_total, label='Stress-Strain Curve')
+plt.xlabel('Strain (ε)')
+plt.ylabel('Stress (σ) [Pa]')
+plt.title('Stress-Strain Curve')
+plt.grid(True)
+plt.axvline(x=ε_y, color='r', linestyle='--', label=f'Yield Point (Sy = {Sy_input/1e6:.2f} MPa)')
+plt.axhline(y=predicted_Su[0], color='g', linestyle='--', label=f'Predicted UTS (Su = {predicted_Su[0]/1e6:.2f} MPa)')
+plt.legend()
+plt.show()
