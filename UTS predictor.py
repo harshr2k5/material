@@ -107,8 +107,8 @@ print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
 σ_y = Sy_input * (1 + ε_y)  # True stress at yield
 ϵ_y = np.log(1 + ε_y)       # True strain at yield
 
-# Estimate strain at UTS (engineering strain, typically around 0.1 for metals)
-ε_u = 0.1  # Assumed
+# Estimate strain at UTS
+ε_u = (predicted_Su[0] / E_input) + 0.02 # Approximated
 σ_u = predicted_Su[0] * (1 + ε_u)  # True stress at UTS
 ϵ_u = np.log(1 + ε_u)              # True strain at UTS
 
