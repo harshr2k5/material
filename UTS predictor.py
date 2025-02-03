@@ -78,11 +78,15 @@ joblib.dump(model, "random_forest_model.pkl")
 joblib.dump(scaler, "scaler.pkl")
 
 # Prompt user for new inputs to predict Su
-E_input = float(input("Enter Young's Modulus (E): "))
-G_input = float(input("Enter Shear Modulus (G): "))
-μ_input = float(input("Enter Poisson's Ratio (μ): "))
-ρ_input = float(input("Enter Density (ρ): "))
-Sy_input = float(input("Enter Yield Strength (σₛ): "))
+try:
+    E_input = float(input("Enter Young's Modulus (E): "))
+    G_input = float(input("Enter Shear Modulus (G): "))
+    μ_input = float(input("Enter Poisson's Ratio (μ): ")) 
+    ρ_input = float(input("Enter Density (ρ): "))
+    Sy_input = float(input("Enter Yield Strength (σₛ): ")) 
+except ValueError:
+    print("Invalid Input!")
+    exit()
 
 # Prepare input for prediction
 user_input = np.array([[E_input, G_input, μ_input, ρ_input, Sy_input]])
@@ -97,3 +101,11 @@ print(f"R-Squared (R2): {r2}")
 # Predict Su
 predicted_Su = model.predict(user_input_scaled)
 print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
+
+# Feature Importance Analysis
+feature_importances = model.feature_importances_
+plt.barh(features.columns, feature_importances)
+plt.xlabel("Feature Importance")
+plt.ylabel("Feature")
+plt.title("Random Forest Feature Importance")
+plt.show()
