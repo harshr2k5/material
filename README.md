@@ -9,5 +9,7 @@ Features Used:
 - Yield Strength (σₛ)
 - Material Conditions: predefined material processing conditions (e.g., annealed, quenched, tempered).
 
+Additionally, the model plots the stress-strain curve and approximates the plastic region using Hollomon equation.
+
 Requirements:
-Python + Pandas, Scikit-Learn, Joblib
+Python + Pandas, Matplotlib, Scikit-Learn, Joblib
