@@ -13,3 +13,6 @@ Additionally, the model plots the stress-strain curve with approximated plastic 
 
 Requirements:
 Python, NumPy, Pandas, Matplotlib, Scikit-Learn, Joblib
+
+![Sample Prediciton Curve](https://github.com/user-attachments/assets/2f81727b-940a-410d-9796-1ae332ad8156)
+
