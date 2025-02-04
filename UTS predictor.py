@@ -142,8 +142,10 @@ else:  # Highly Ductile
 # Calculate stress in the plastic region using Hollomon's equation
 σ_plastic = K * (ϵ_plastic ** n)
 
+σ_plastic = np.minimum(σ_plastic, predicted_Su[0])
+
 ϵ_fracture_range = np.linspace(ϵ_u, np.log(1 + ε_fracture), 50)
-σ_fracture_range = np.linspace(σ_u, σ_fracture, 50)  # Gradually decreasing stress
+σ_fracture_range = np.linspace(predicted_Su[0], σ_fracture, 50)  # Gradually decreasing stress
 
 # Convert true strain back to engineering strain for plotting
 ε_plastic = np.exp(ϵ_plastic) - 1
