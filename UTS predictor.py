@@ -119,18 +119,18 @@ print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
 n = np.log(σ_u / σ_y) / np.log(ϵ_u / ϵ_y)
 K = σ_y / (ϵ_y ** n)
 
-fracture_stress_ratio = 0.85
+fracture_stress_ratio = 0.85 # assumed (approx)
 σ_fracture = predicted_Su[0] * fracture_stress_ratio
 
 # Ductility is approximated by the ratio of Su to Sy
 ductility_ratio = predicted_Su[0] / Sy_input
 
 # Define fracture strain scaling factor based on ductility
-if ductility_ratio < 1.2:  # Brittle materials (e.g., cast iron)
+if ductility_ratio < 1.2:  # Brittle
     fracture_strain_factor = 1.1  # Slightly above UTS strain
-elif ductility_ratio < 1.5:  # Moderately ductile materials (e.g., high-strength steel)
+elif ductility_ratio < 1.5:  # Moderately Ductile
     fracture_strain_factor = 1.5
-else:  # Highly ductile materials (e.g., aluminum, copper)
+else:  # Highly Ductile
     fracture_strain_factor = 2.0
 
 # Calculate fracture strain
