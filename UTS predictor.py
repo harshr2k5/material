@@ -119,18 +119,39 @@ print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
 n = np.log(σ_u / σ_y) / np.log(ϵ_u / ϵ_y)
 K = σ_y / (ϵ_y ** n)
 
-# Generate strain values for the plastic region
-ϵ_plastic = np.linspace(ϵ_y, ϵ_u, 100)  # True strain in the plastic region
+fracture_stress_ratio = 0.85
+σ_fracture = predicted_Su[0] * fracture_stress_ratio
+
+# Ductility is approximated by the ratio of Su to Sy
+ductility_ratio = predicted_Su[0] / Sy_input
+
+# Define fracture strain scaling factor based on ductility
+if ductility_ratio < 1.2:  # Brittle materials (e.g., cast iron)
+    fracture_strain_factor = 1.1  # Slightly above UTS strain
+elif ductility_ratio < 1.5:  # Moderately ductile materials (e.g., high-strength steel)
+    fracture_strain_factor = 1.5
+else:  # Highly ductile materials (e.g., aluminum, copper)
+    fracture_strain_factor = 2.0
+
+# Calculate fracture strain
+ε_fracture = ε_u * fracture_strain_factor
+
+# Generate strain values for the plastic region up to fracture
+ϵ_plastic = np.linspace(ϵ_y, ϵ_u, 200)  # True strain in the plastic region
 
 # Calculate stress in the plastic region using Hollomon's equation
 σ_plastic = K * (ϵ_plastic ** n)
 
+ϵ_fracture_range = np.linspace(ϵ_u, np.log(1 + ε_fracture), 50)
+σ_fracture_range = np.linspace(σ_u, σ_fracture, 50)  # Gradually decreasing stress
+
 # Convert true strain back to engineering strain for plotting
 ε_plastic = np.exp(ϵ_plastic) - 1
+ε_fracture_curve = np.exp(ϵ_fracture_range) - 1
 
 # Combine elastic and plastic regions
-ε_total = np.concatenate((np.linspace(0, ε_y, 100), ε_plastic))
-σ_total = np.concatenate((E_input * np.linspace(0, ε_y, 100), σ_plastic))
+ε_total = np.concatenate((np.linspace(0, ε_y, 100), ε_plastic, ε_fracture_curve))
+σ_total = np.concatenate((E_input * np.linspace(0, ε_y, 100), σ_plastic, σ_fracture_range))
 
 # Plot the stress-strain curve
 plt.figure(figsize=(10, 6))
@@ -140,6 +161,7 @@ plt.ylabel('Stress (σ) [Pa]')
 plt.title('Stress-Strain Curve')
 plt.grid(True)
 plt.axvline(x=ε_y, color='r', linestyle='--', label=f'Yield Point (Sy = {Sy_input:.2f} Pa)')
-plt.axhline(y=predicted_Su[0], color='g', linestyle='--', label=f'Predicted UTS (Su = {predicted_Su[0]:.2f} Pa)')
+plt.axhline(y=predicted_Su, color='g', linestyle='--', label=f'Predicted UTS (Su = {predicted_Su[0]:.2f} Pa)')
+plt.axvline(x=ε_fracture, color='k', linestyle='--', label=f'Fracture Point (ε_fracture = {ε_fracture:.2f})')
 plt.legend()
 plt.show()
