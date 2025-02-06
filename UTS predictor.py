@@ -80,11 +80,11 @@ joblib.dump(scaler, "scaler.pkl")
 
 # Prompt user for new inputs to predict Su
 try:
-    E_input = float(input("Enter Young's Modulus (E): "))
-    G_input = float(input("Enter Shear Modulus (G): "))
+    E_input = float(input("Enter Young's Modulus in MPa (E): "))
+    G_input = float(input("Enter Shear Modulus in MPa (G): "))
     μ_input = float(input("Enter Poisson's Ratio (μ): ")) 
-    ρ_input = float(input("Enter Density (ρ): "))
-    Sy_input = float(input("Enter Yield Strength (σₛ): ")) 
+    ρ_input = float(input("Enter Density in Kg/m3 (ρ): "))
+    Sy_input = float(input("Enter Yield Strength in MPa (σₛ): ")) 
 except ValueError:
     print("Invalid Input!")
     exit()
@@ -105,6 +105,9 @@ print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
 
 # Calculate strain at yield point
 ε_y = Sy_input / E_input  # Engineering strain at yield
+
+σ_LY = Sy_input * 0.85 # assumed (approx)
+ε_LY = ε_y + 0.002  # Approximated
 
 # True stress and true strain at yield
 σ_y = Sy_input * (1 + ε_y)  # True stress at yield
@@ -136,12 +139,14 @@ else:  # Highly Ductile
 # Calculate fracture strain
 ε_fracture = ε_u * fracture_strain_factor
 
+ε_transition = np.linspace(ε_y, ε_LY, 50)
+σ_transition = np.linspace(Sy_input, σ_LY, 50)
+
 # Generate strain values for the plastic region up to fracture
-ϵ_plastic = np.linspace(ϵ_y, ϵ_u, 200)  # True strain in the plastic region
+ϵ_plastic = np.linspace(ε_LY, ϵ_u, 200)  # True strain in the plastic region
 
 # Calculate stress in the plastic region using Hollomon's equation
 σ_plastic = K * (ϵ_plastic ** n)
-
 σ_plastic = np.minimum(σ_plastic, predicted_Su[0])
 
 ϵ_fracture_range = np.linspace(ϵ_u, np.log(1 + ε_fracture), 50)
@@ -152,18 +157,19 @@ else:  # Highly Ductile
 ε_fracture_curve = np.exp(ϵ_fracture_range) - 1
 
 # Combine elastic and plastic regions
-ε_total = np.concatenate((np.linspace(0, ε_y, 100), ε_plastic, ε_fracture_curve))
-σ_total = np.concatenate((E_input * np.linspace(0, ε_y, 100), σ_plastic, σ_fracture_range))
+ε_total = np.concatenate((np.linspace(0, ε_y, 100), ε_transition, ε_plastic, ε_fracture_curve))
+σ_total = np.concatenate((E_input * np.linspace(0, ε_y, 100), σ_transition, σ_plastic, σ_fracture_range))
 
 # Plot the stress-strain curve
 plt.figure(figsize=(10, 6))
 plt.plot(ε_total, σ_total, label='Stress-Strain Curve')
 plt.xlabel('Strain (ε)')
-plt.ylabel('Stress (σ) [Pa]')
+plt.ylabel('Stress (σ) [MPa]')
 plt.title('Stress-Strain Curve')
 plt.grid(True)
-plt.axvline(x=ε_y, color='r', linestyle='--', label=f'Yield Point (Sy = {Sy_input:.2f} Pa)')
-plt.axhline(y=predicted_Su, color='g', linestyle='--', label=f'Predicted UTS (Su = {predicted_Su[0]:.2f} Pa)')
+plt.axvline(x=ε_y, color='r', linestyle='--', label=f'Yield Point (Sy = {Sy_input:.2f} MPa)')
+plt.axvline(x=ε_LY, color='orange', linestyle='--', label=f'Lower Yield Point (σ_LY = {σ_LY:.2f} MPa)')
+plt.axhline(y=predicted_Su, color='g', linestyle='--', label=f'Predicted UTS (Su = {predicted_Su[0]:.2f} MPa)')
 plt.axvline(x=ε_fracture, color='k', linestyle='--', label=f'Fracture Point (ε_fracture = {ε_fracture:.2f})')
 plt.legend()
 plt.show()
