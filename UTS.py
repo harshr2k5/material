@@ -37,6 +37,7 @@ conditions = {
     "V": "quenching and cooling",
     "NONE": "no pre-processing"
 }
+
 for key, value in conditions.items():
     print(f"{key}: {value}")
 
@@ -128,14 +129,16 @@ fracture_stress_ratio = 0.85 # assumed (approx)
 # Ductility is approximated by the ratio of Su to Sy
 ductility_ratio = predicted_Su[0] / Sy_input
 
-# Define fracture strain scaling factor based on ductility
-if ductility_ratio < 1.2:  # Brittle
-    fracture_strain_factor = 1.1  # Slightly above UTS strain
-elif ductility_ratio < 1.5:  # Moderately Ductile
-    fracture_strain_factor = 1.5
-else:  # Highly Ductile
-    fracture_strain_factor = 2.0
+# alloting (approx) fracture strain scaling factors based on pre-processing conditions
 
+fracture_strain_factors = {
+    "A": 1.3, "normalizeBd": 1.5, "C": 2.0, "D": 1.1, "wrougEht": 1.8,
+    "F": 1.2, "G": 1.6, "H": 1.4, "I": 1.5,
+    "J": 1.6, "K": 1.2, "L": 1.1, "M": 1.0, "N": 0.9,
+    "O": 1.7, "P": 1.0, "Q": 0.95, "R": 1.6, "S": 1.1,
+    "T": 1.7, "U": 1.4, "V": 1.3, "NONE": 1.5
+}
+fracture_strain_factor = fracture_strain_factors[condition]
 # Calculate fracture strain
 ε_fracture = ε_u * fracture_strain_factor
 
@@ -162,7 +165,7 @@ else:  # Highly Ductile
 
 # Plot the stress-strain curve
 plt.figure(figsize=(10, 6))
-plt.plot(ε_total, σ_total, label='Stress-Strain Curve')
+plt.plot(ε_total, σ_total, color='k', label='Stress-Strain Curve')
 plt.xlabel('Strain (ε)')
 plt.ylabel('Stress (σ) [MPa]')
 plt.title('Stress-Strain Curve')
@@ -172,6 +175,6 @@ plt.axvline(x=ε_y, color='b', linestyle='--', label=f'Yield Strain (ε_y = {ε_
 plt.axhline(y=σ_LY, color='orange', linestyle='--', label=f'Lower Yield Point (σ_LY = {σ_LY:.2f} MPa)')
 plt.axvline(x=ε_LY, color='c', linestyle='--', label=f'Lower Yield Point (ε_fracture = {ε_LY:.4f})')
 plt.axvline(x=ε_fracture, color='g', linestyle='--', label=f'Fracture Point (ε_fracture = {np.log(1 + ε_fracture):.2f})')
-plt.axhline(y=predicted_Su, color='k', linestyle='--', label=f'Predicted UTS (σᵤ = {predicted_Su[0]:.2f} MPa)')
+plt.axhline(y=predicted_Su, color='m', linestyle='--', label=f'Predicted UTS (σᵤ = {predicted_Su[0]:.2f} MPa)')
 plt.legend()
 plt.show()
