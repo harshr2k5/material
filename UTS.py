@@ -172,7 +172,7 @@ plt.axhline(y=Sy_input, color='r', linestyle='--', label=f'Yield Strength (σₛ
 plt.axvline(x=ε_y, color='b', linestyle='--', label=f'Yield Strain (ε_y = {ε_y:.4f})')
 plt.axhline(y=σ_LY, color='orange', linestyle='--', label=f'Lower Yield Point (σ_LY = {σ_LY:.2f} MPa)')
 plt.axvline(x=ε_LY, color='c', linestyle='--', label=f'Lower Yield Point (ε_fracture = {ε_LY:.4f})')
-plt.axvline(x=ε_fracture, color='g', linestyle='--', label=f'Fracture Point (ε_fracture = {np.log(1 + ε_fracture):.2f})')
+plt.axvline(x=ε_fracture, color='g', linestyle='--', label=f'Fracture Point (ε_fracture = {np.log(1 + ε_fracture):.4f})')
 plt.axhline(y=predicted_Su, color='m', linestyle='--', label=f'Predicted UTS (σᵤ = {predicted_Su[0]:.2f} MPa)')
 plt.legend()
 plt.show()
