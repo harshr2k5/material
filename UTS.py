@@ -20,21 +20,14 @@ conditions = {
     "E": "wrought",
     "F": "cast",
     "G": "as extruded",
-    "H": "tempered at 400 F",
-    "I": "tempered at 600 F",
-    "J": "tempered at 800 F",
-    "K": "1/4-hard",
-    "L": "1/2-hard",
-    "M": "3/4-hard",
-    "N": "full-hard",
-    "O": "heat treated",
-    "P": "case-hardened",
-    "Q": "face hardened",
-    "R": "improved",
-    "S": "cold working",
-    "T": "high tempering",
-    "U": "quenched and tempered",
-    "V": "quenching and cooling",
+    "H": "temper",
+    "I": "hard",  
+    "J": "heat treated",
+    "K": "case-hardened",
+    "L": "cold working",
+    "M": "quenched and tempered",
+    "N": "quenching and cooling",
+    "O": "improved",
     "NONE": "no pre-processing"
 }
 
@@ -132,14 +125,14 @@ ductility_ratio = predicted_Su[0] / Sy_input
 # alloting (approx) fracture strain scaling factors based on pre-processing conditions
 
 fracture_strain_factors = {
-    "A": 1.3, "normalizeBd": 1.5, "C": 2.0, "D": 1.1, "wrougEht": 1.8,
+    "A": 1.3, "B": 1.5, "C": 2.0, "D": 1.1, "E": 1.8,
     "F": 1.2, "G": 1.6, "H": 1.4, "I": 1.5,
-    "J": 1.6, "K": 1.2, "L": 1.1, "M": 1.0, "N": 0.9,
-    "O": 1.7, "P": 1.0, "Q": 0.95, "R": 1.6, "S": 1.1,
-    "T": 1.7, "U": 1.4, "V": 1.3, "NONE": 1.5
+    "J": 1.7, "K": 1.0, "L": 1.1, "M": 1.4, "N": 1.3, "O": 1.6,
+    "NONE": 1.5
 }
-fracture_strain_factor = fracture_strain_factors[condition]
+
 # Calculate fracture strain
+fracture_strain_factor = fracture_strain_factors[condition]
 ε_fracture = ε_u * fracture_strain_factor
 
 ε_transition = np.linspace(ε_y, ε_LY, 50)
