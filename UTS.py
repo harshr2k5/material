@@ -20,8 +20,8 @@ conditions = {
     "E": "wrought",
     "F": "cast",
     "G": "as extruded",
-    "H": "temper",
-    "I": "hard",  
+    "H": "tempered",
+    "I": "hardened",  
     "J": "heat treated",
     "K": "case-hardened",
     "L": "cold working",
@@ -41,7 +41,12 @@ if condition == "NONE":
     data = data
 elif condition in conditions:
     chosen_condition = conditions[condition]
-    data = data[data['Material'].str.contains(chosen_condition, case=False)]
+    if chosen_condition == "tempered":
+        data = data[data['Material'].str.contains("temper", case=False)] #"tempered" chooses data with "temper"
+    elif chosen_condition == "hardened":
+        data = data[data['Material'].str.contains("hard", case=False)] #hardened chooses data with "hard"
+    else:
+        data = data[data['Material'].str.contains(chosen_condition, case=False)]
 else:
     raise ValueError("please select a valid option.")
 
