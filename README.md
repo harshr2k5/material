@@ -16,10 +16,9 @@ Python, NumPy, Pandas, Matplotlib, Scikit-Learn, Joblib
 
 ----
 
-Sample Predicitons:
+Sample Prediciton:
 
 Tempered Steel: ![tempered](https://github.com/user-attachments/assets/263109cd-ae81-4197-b0c3-f1b3948bf800)
-Cast Magnesium: ![magnesium stress strain](https://github.com/user-attachments/assets/73cdc069-6946-485a-9351-a5e0f94e1bd6)
 
 
 
