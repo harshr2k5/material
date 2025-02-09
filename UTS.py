@@ -100,7 +100,26 @@ print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
 ϵ_y = np.log(1 + ε_y)       # True strain at yield
 
 # Estimate strain at UTS
-ε_u = (predicted_Su[0] / E_input) + 0.02 # Approximated
+# Define strain offsets based on Young's modulus (E) categories
+strain_offsets = [
+    (190000, 225000, 0.05),
+    (150000, 189999, 0.07),   
+    (100000, 149999, 0.09),   
+    (80000, 99999, 0.12),     
+    (40000, 79999, 0.18),     
+    (0, 39999, 0.25)          
+]
+
+def get_strain_offset(E_input):
+    for (E_min, E_max, offset) in strain_offsets:
+        if E_min <= E_input <= E_max:
+            return offset
+    return 0.1  # Default fallback
+
+# Get strain offset based on Young's modulus input
+strain_offset = get_strain_offset(E_input)
+# Estimate strain at UTS using dynamically determined offset
+ε_u = (predicted_Su[0] / E_input) + strain_offset
 σ_u = predicted_Su[0] * (1 + ε_u)  # True stress at UTS
 ϵ_u = np.log(1 + ε_u)              # True strain at UTS
 
