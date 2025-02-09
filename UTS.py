@@ -13,22 +13,9 @@ data = pd.read_csv("material.csv")
 # Prompt user for material condition
 print("Choose Material Condition:")
 conditions = {
-    "A": "as-rolled",
-    "B": "normalized",
-    "C": "annealed",
-    "D": "sand casting",
-    "E": "wrought",
-    "F": "cast",
-    "G": "as extruded",
-    "H": "tempered",
-    "I": "hardened",  
-    "J": "heat treated",
-    "K": "case-hardened",
-    "L": "cold working",
-    "M": "quenched and tempered",
-    "N": "quenching and cooling",
-    "O": "improved",
-    "NONE": "no pre-processing"
+    "A": "as-rolled", "B": "normalized", "C": "annealed", "D": "sand casting", "E": "wrought", "F": "cast",
+    "G": "as extruded","H": "tempered", "I": "hardened", "J": "heat treated", "K": "case-hardened", "L": "cold working",
+    "M": "quenched and tempered", "N": "quenching and cooling", "O": "improved", "NONE": "no pre-processing"
 }
 
 for key, value in conditions.items():
