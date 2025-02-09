@@ -16,9 +16,11 @@ Python, NumPy, Pandas, Matplotlib, Scikit-Learn, Joblib
 
 ----
 
-Sample Prediciton:
+Sample Predicitons:
 
 Tempered Steel: ![tempered](https://github.com/user-attachments/assets/263109cd-ae81-4197-b0c3-f1b3948bf800)
+Wrought Alumnium: ![alumnium](https://github.com/user-attachments/assets/63bbf874-f24a-4304-be0b-c22e6621b874)
+
 
 
 
