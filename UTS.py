@@ -66,18 +66,22 @@ joblib.dump(scaler, "scaler.pkl")
 
 # Prompt user for new inputs to predict Su
 try:
-    E_input = float(input("Enter Young's Modulus in MPa (E): "))
-    G_input = float(input("Enter Shear Modulus in MPa (G): "))
-    μ_input = float(input("Enter Poisson's Ratio (μ): ")) 
-    ρ_input = float(input("Enter Density in Kg/m3 (ρ): "))
-    Sy_input = float(input("Enter Yield Strength in MPa (σₛ): ")) 
+    user_data = {
+        "E": float(input("Enter Young's Modulus in MPa (E): ")),
+        "G": float(input("Enter Shear Modulus in MPa (G): ")),
+        "mu": float(input("Enter Poisson's Ratio (μ): ")), 
+        "Ro": float(input("Enter Density in Kg/m3 (ρ): ")),
+        "Sy": float(input("Enter Yield Strength in MPa (σₛ): ")) 
+    }
 except ValueError:
     print("Invalid Input!")
     exit()
 
-# Prepare input for prediction
-user_input = np.array([[E_input, G_input, μ_input, ρ_input, Sy_input]])
-user_input_scaled = scaler.transform(user_input)
+# Convert user input to DataFrame (Fixes the warning)
+user_input_df = pd.DataFrame([user_data])
+
+# Standardize the input using the saved scaler
+user_input_scaled = scaler.transform(user_input_df)
 
 print("Model Evaluation:")
 print(f"Model Score: {mscore}")
@@ -88,6 +92,9 @@ print(f"R-Squared (R2): {r2}")
 # Predict Su
 predicted_Su = model.predict(user_input_scaled)
 print(f"Predicted Ultimate Tensile Strength (Su): {predicted_Su[0]:.2f}")
+
+E_input = user_data["E"]
+Sy_input = user_data["Sy"]
 
 # Calculate strain at yield point
 ε_y = Sy_input / E_input  # Engineering strain at yield
@@ -118,6 +125,7 @@ def get_strain_offset(E_input):
 
 # Get strain offset based on Young's modulus input
 strain_offset = get_strain_offset(E_input)
+
 # Estimate strain at UTS using dynamically determined offset
 ε_u = (predicted_Su[0] / E_input) + strain_offset
 σ_u = predicted_Su[0] * (1 + ε_u)  # True stress at UTS
