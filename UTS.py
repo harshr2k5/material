@@ -130,9 +130,6 @@ K = σ_y / (ϵ_y ** n)
 fracture_stress_ratio = 0.85 # assumed (approx)
 σ_fracture = predicted_Su[0] * fracture_stress_ratio
 
-# Ductility is approximated by the ratio of Su to Sy
-ductility_ratio = predicted_Su[0] / Sy_input
-
 # alloting (approx) fracture strain scaling factors based on pre-processing conditions
 
 fracture_strain_factors = {
