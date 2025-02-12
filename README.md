@@ -9,10 +9,17 @@ Features Used:
 - Yield Strength (σₛ)
 - Material Conditions: predefined material processing conditions (e.g., Annealed, Quenched, Tempered).
 
-Additionally, the model plots the stress-strain curve with approximated plastic and fracture regions.
+The model also plots an approximate Stress-Strain (σ-ϵ) curve:
 
-Requirements:
-Python, NumPy, Pandas, Matplotlib, Scikit-Learn, Joblib
+The plastic region is approximated using the Hollomon equation: σ=Kϵⁿ; 
+The Strain (ϵ) at UTS is approximated as σᵤ/E + (offset); 
+The offset is set based on plastic deformation at ranges of Young's Modulus (E) values.
+The parameters K (strength coefficient) and n (strain-hardening exponent) are derived from the material's True Stress (σ) and True Strain (ϵ) values at yield and UTS.
+
+The fracture region (strain) is estimated by using a fracture strain factor depending on the pre-processing condition and how it affects the ductility of the material. (from 1.0 to 2.0)
+The fracture stress is approximated as 0.85 σᵤ (empirical estimation)
+
+Works with a high accuracy for metals like Aluminum, Cast Iron, and Steel.
 
 ----
 
