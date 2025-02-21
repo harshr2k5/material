@@ -25,8 +25,8 @@ Works with a high accuracy for metals like Aluminum, Cast Iron, and Steel.
 
 Sample Predicitons:
 
-Tempered Steel: ![tempered steel](https://github.com/user-attachments/assets/cba54922-8263-4669-afb1-22ed74440b92)
-Wrought Alumnium: ![wrought aluminum](https://github.com/user-attachments/assets/eab84ea0-1b8b-41c1-a14d-6cb9e43d5e31)
+Tempered Steel: ![tempered](https://github.com/user-attachments/assets/0d12d749-524c-466e-9524-2ca92eb84b48)
+Wrought Alumnium: ![wrought aluminum](https://github.com/user-attachments/assets/e8216615-4a06-46dc-8f05-a401358ede18)
 
 
 
