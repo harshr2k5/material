@@ -13,7 +13,7 @@ The model also plots an approximate Stress-Strain (σ-ϵ) curve:
 
 The plastic region is approximated using the Hollomon equation: σ=Kϵⁿ; 
 The Strain (ϵ) at UTS is approximated as σᵤ/E + (offset); 
-The offset is set based on plastic deformation at ranges of Young's Modulus (E) values.
+The offset is set based on plastic deformation at ranges of Young's Modulus (E) values and pre-processing condition.
 The parameters K (strength coefficient) and n (strain-hardening exponent) are derived from the material's True Stress (σ) and True Strain (ϵ) values at yield and UTS.
 
 The fracture region (strain) is estimated by using a fracture strain factor depending on the pre-processing condition and how it affects the ductility of the material. (from 1.0 to 2.0)
